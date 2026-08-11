@@ -13,9 +13,11 @@
 <title>Patram Pushpam Phalam Thoyam — 182 Days</title>
 <style>
 :root{
-  --paper:#FBF7F1; --card:#FFFDFA; --ink:#2A2521; --soft:#6F6459; --faint:#9C9186;
-  --rule:#E7DFD2; --accent:#9B2C2C;
+  --paper:#FBF7F1; --card:#FFFDFA; --ink:#2A2521; --soft:#554B42; --faint:#6E6358;
+  --rule:#E7DFD2; --ring:#CDBFA8; --accent:#8E2626;
   --patram:#6E8B5E; --pushpam:#A85A72; --phalam:#C08A3E; --thoyam:#1F5FA8;
+  /* darker variants, used wherever a value colour becomes text */
+  --patram-t:#47623A; --pushpam-t:#83384F; --phalam-t:#7F5614; --thoyam-t:#194A88;
 }
 *{box-sizing:border-box}
 body{
@@ -60,16 +62,23 @@ h1.sanskrit{font-size:31px;letter-spacing:.02em;margin:0 0 8px;font-weight:500;c
 }
 .val:hover{border-color:var(--faint)}
 .val .vn{font-size:16px;font-weight:600;display:flex;align-items:center;gap:8px}
-.val .mark{width:9px;height:9px;border-radius:50%;border:1.5px solid var(--rule);flex:none}
+.val .mark{width:9px;height:9px;border-radius:50%;border:1.5px solid var(--ring);flex:none}
 .val .vs{font-size:14px;margin-left:2px;opacity:.85}
 .val .vd{font-size:13px;color:var(--soft);margin-top:5px;line-height:1.45}
-.val[data-on="1"]{border-color:currentColor}
-.val[data-on="1"] .mark{background:currentColor;border-color:currentColor}
-.val[data-k="patram"]{color:var(--patram)} .val[data-k="pushpam"]{color:var(--pushpam)}
-.val[data-k="phalam"]{color:var(--phalam)} .val[data-k="thoyam"]{color:var(--thoyam)}
+.val[data-k="patram"]{--c:var(--patram);--ct:var(--patram-t)}
+.val[data-k="pushpam"]{--c:var(--pushpam);--ct:var(--pushpam-t)}
+.val[data-k="phalam"]{--c:var(--phalam);--ct:var(--phalam-t)}
+.val[data-k="thoyam"]{--c:var(--thoyam);--ct:var(--thoyam-t)}
 .val .vd,.val .vn{color:var(--ink)}
-.val[data-on="1"] .vn{color:currentColor}
-.val[data-on="1"]{background:color-mix(in srgb, currentColor 5%, var(--card))}
+.val[data-on="1"]{border-color:var(--c);background:color-mix(in srgb, var(--c) 6%, var(--card))}
+.val[data-on="1"] .mark{background:var(--c);border-color:var(--c)}
+.val[data-on="1"] .vn{color:var(--ct)}
+
+.bigwrap{display:flex;flex-direction:column;align-items:center;gap:10px;margin:4px 0 22px}
+.big{width:112px;height:112px;border-radius:50%;position:relative;background:var(--ring);flex:none}
+.big i{position:absolute;inset:4px;border-radius:50%;background:var(--card);display:block}
+.bigcap{font-size:13.5px;color:var(--soft);text-align:center;line-height:1.45}
+.bigcap b{color:var(--ink);font-weight:600}
 
 .note{font-size:13.5px;color:var(--soft);font-style:italic;text-align:center;margin:20px 0 0;line-height:1.6}
 
@@ -79,7 +88,7 @@ h1.sanskrit{font-size:31px;letter-spacing:.02em;margin:0 0 8px;font-weight:500;c
 .grid{display:grid;grid-template-rows:repeat(7,1fr);grid-auto-flow:column;grid-auto-columns:1fr;gap:6px}
 .dot{
   position:relative;width:100%;aspect-ratio:1;border-radius:50%;cursor:pointer;
-  background:var(--rule);padding:0;border:0;
+  background:var(--ring);padding:0;border:0;
 }
 .dot i{position:absolute;inset:1px;border-radius:50%;background:var(--card);display:block}
 .dot.sel{outline:1.5px solid var(--ink);outline-offset:2px}
@@ -105,6 +114,9 @@ footer button:hover{border-color:var(--faint)}
   header{margin-bottom:24px}
   .dedication{display:none}
   .span{font-size:11.5px;margin-top:10px}
+  .grid{grid-template-rows:none;grid-auto-flow:row;grid-template-columns:repeat(7,1fr);
+        grid-auto-columns:auto;gap:9px}
+  .big{width:96px;height:96px}
 }
 @media print{
   body{background:#fff}
@@ -143,6 +155,11 @@ footer button:hover{border-color:var(--faint)}
     <div id="vbody"></div>
   </div>
 
+  <div class="bigwrap">
+    <div class="big" id="big"><i></i></div>
+    <div class="bigcap" id="bigcap"></div>
+  </div>
+
   <div class="values" id="values"></div>
 
   <p class="note">Three breaths before prayers.<br>On a rushed morning, three breaths still counts — fully, no asterisk.</p>
@@ -159,7 +176,7 @@ footer button:hover{border-color:var(--faint)}
     <span><b style="background:var(--pushpam)"></b> Pushpam</span>
     <span><b style="background:var(--phalam)"></b> Phalam</span>
     <span><b style="background:var(--thoyam)"></b> Thoyam</span>
-    <span style="color:var(--faint)">Each column is one week &mdash; 26 weeks exactly. Nothing is ever marked red.</span>
+    <span style="color:var(--faint)">One circle a day, quartered by offering &mdash; 26 weeks in all. Nothing is ever marked red.</span>
   </div>
 </div>
 
@@ -226,6 +243,17 @@ function renderVerse(){
   }
 }
 
+function renderBig(){
+  const s = state[sel-1], n = s.filter(Boolean).length;
+  const big = document.getElementById('big');
+  big.style.background = n ? dotStyle(sel) : 'var(--ring)';
+  big.querySelector('i').style.background = n ? 'transparent' : 'var(--card)';
+  const names = VALUES.filter((V,i) => s[i]).map(V => V.name);
+  document.getElementById('bigcap').innerHTML = n
+    ? '<b>' + n + ' of 4 offered</b><br>' + names.join(' &middot; ')
+    : 'Nothing marked yet for this day.';
+}
+
 function renderValues(){
   const wrap = document.getElementById('values');
   wrap.innerHTML = '';
@@ -234,7 +262,7 @@ function renderValues(){
     b.className = 'val'; b.dataset.k = V.k; b.dataset.on = state[sel-1][i] ? '1' : '0';
     b.innerHTML = '<div class="vn"><span class="mark"></span>' + V.name +
       ' <span class="vs dev">' + V.dev + '</span></div><div class="vd">' + V.desc + '</div>';
-    b.onclick = () => { state[sel-1][i] = !state[sel-1][i]; renderValues(); renderGrid(); renderCode(); };
+    b.onclick = () => { state[sel-1][i] = !state[sel-1][i]; renderValues(); renderBig(); renderGrid(); renderCode(); };
     wrap.appendChild(b);
   });
 }
@@ -296,7 +324,7 @@ function loadCode(str){
   } catch(e){ return false; }
 }
 
-function render(){ renderVerse(); renderValues(); renderGrid(); renderCode(); }
+function render(){ renderVerse(); renderValues(); renderBig(); renderGrid(); renderCode(); }
 
 document.getElementById('prev').onclick = () => { if (sel > 1){ sel--; render(); } };
 document.getElementById('next').onclick = () => { if (sel < TOTAL){ sel++; render(); } };

@@ -12,17 +12,16 @@ Keep all files together in one folder. Don't rename index.html.
 
 STEP 1 — PUT IT ON THE WEB (once)
 
-Option A — Cloudflare Pages (no git, drag and drop)
-  1. dash.cloudflare.com  →  Workers & Pages  →  Create  →  Pages
-  2. "Upload assets", name it e.g. thoyam
-  3. Drag this whole folder in, click Deploy
-  4. You get a URL like  https://thoyam.pages.dev
+GitHub Pages
+  1. Upload all these files to the ROOT of your repository
+     (the files themselves, not the enclosing folder)
+  2. Settings → Pages → Source: Deploy from a branch, main, / (root)
+  3. Wait a minute. Your address:
+     https://sonalispot.github.io/Patram/
 
-Option B — GitHub Pages
-  1. New repository (can be public; nobody will find it)
-  2. Upload all the files in this folder to the root
-  3. Settings → Pages → Source: Deploy from a branch, main, / (root)
-  4. You get  https://<you>.github.io/<repo>/
+Cloudflare Pages (alternative, drag and drop)
+  1. dash.cloudflare.com → Workers & Pages → Create → Pages
+  2. "Upload assets", drag this folder in, Deploy
 
 Either is free. Neither touches sonalishetty.com.
 
@@ -47,6 +46,13 @@ Storage is per device — your phone keeps its own record. The code at
 the bottom of the page is a spare key: copy it somewhere safe every
 few weeks, and you can paste it back if you change phones or clear
 Safari's data.
+
+
+IF YOU EVER REPLACE THESE FILES
+
+Re-upload them to the repository, then close the app fully on your
+phone and open it again twice. The first open fetches the new version,
+the second shows it. Your marks are untouched by updates.
 
 
 A NOTE
