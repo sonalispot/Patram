@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<link rel="manifest" href="manifest.webmanifest">
+<meta name="theme-color" content="#FBF7F1">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="apple-mobile-web-app-title" content="Thoyam">
+<link rel="apple-touch-icon" href="icon-180.png">
+<title>Patram Pushpam Phalam Thoyam — 182 Days</title>
+<style>
+:root{
+  --paper:#FBF7F1; --card:#FFFDFA; --ink:#2A2521; --soft:#6F6459; --faint:#9C9186;
+  --rule:#E7DFD2; --accent:#9B2C2C;
+  --patram:#6E8B5E; --pushpam:#A85A72; --phalam:#C08A3E; --thoyam:#1F5FA8;
+}
+*{box-sizing:border-box}
+body{
+  margin:0; background:var(--paper); color:var(--ink);
+  font-family:"Iowan Old Style","Palatino Linotype",Palatino,Georgia,serif;
+  font-size:16px; line-height:1.55; -webkit-font-smoothing:antialiased;
+}
+.wrap{max-width:880px;margin:0 auto;
+  padding:calc(44px + env(safe-area-inset-top)) calc(22px + env(safe-area-inset-right))
+          calc(80px + env(safe-area-inset-bottom)) calc(22px + env(safe-area-inset-left))}
+.dev{font-family:"Kohinoor Devanagari","Devanagari MT","Noto Sans Devanagari","Nirmala UI",serif}
+
+header{text-align:center;margin-bottom:38px}
+h1.sanskrit{font-size:31px;letter-spacing:.02em;margin:0 0 8px;font-weight:500;color:var(--accent)}
+.roman{font-size:13px;letter-spacing:.20em;text-transform:uppercase;color:var(--faint);margin:0 0 18px}
+.dedication{font-size:14.5px;color:var(--soft);font-style:italic;margin:0}
+.span{font-size:12.5px;color:var(--faint);letter-spacing:.06em;margin-top:12px}
+
+.card{background:var(--card);border:1px solid var(--rule);border-radius:3px;padding:26px 28px;margin-bottom:22px}
+
+.daybar{display:flex;justify-content:space-between;align-items:baseline;border-bottom:1px solid var(--rule);padding-bottom:12px;margin-bottom:20px;gap:12px;flex-wrap:wrap}
+.dayno{font-size:19px;font-weight:600}
+.dayno small{font-weight:400;color:var(--faint);font-size:14px}
+.daydate{font-size:14px;color:var(--soft)}
+.nav{display:flex;gap:6px}
+.nav button{font-family:inherit;font-size:15px;line-height:1;background:none;border:1px solid var(--rule);color:var(--soft);width:28px;height:26px;border-radius:3px;cursor:pointer}
+.nav button:hover{border-color:var(--faint);color:var(--ink)}
+
+.verse{margin-bottom:24px}
+.vlabel{font-size:11.5px;letter-spacing:.16em;text-transform:uppercase;color:var(--faint);margin-bottom:9px}
+.vdev{font-size:25px;line-height:1.9;color:var(--ink);margin-bottom:9px}
+.viast{font-size:16px;line-height:1.75;color:var(--soft);font-style:italic;margin-bottom:11px}
+.vgloss{font-size:15.5px;line-height:1.6}
+.vmissing{font-size:14.5px;color:var(--faint);font-style:italic;line-height:1.6}
+.vmissing a{color:var(--soft)}
+
+.values{display:grid;grid-template-columns:repeat(auto-fit,minmax(185px,1fr));gap:11px;margin-top:6px}
+.val{
+  text-align:left;font-family:inherit;background:var(--card);cursor:pointer;
+  border:1px solid var(--rule);border-radius:3px;padding:13px 14px;
+  transition:background .16s,border-color .16s;
+}
+.val:hover{border-color:var(--faint)}
+.val .vn{font-size:16px;font-weight:600;display:flex;align-items:center;gap:8px}
+.val .mark{width:9px;height:9px;border-radius:50%;border:1.5px solid var(--rule);flex:none}
+.val .vs{font-size:14px;margin-left:2px;opacity:.85}
+.val .vd{font-size:13px;color:var(--soft);margin-top:5px;line-height:1.45}
+.val[data-on="1"]{border-color:currentColor}
+.val[data-on="1"] .mark{background:currentColor;border-color:currentColor}
+.val[data-k="patram"]{color:var(--patram)} .val[data-k="pushpam"]{color:var(--pushpam)}
+.val[data-k="phalam"]{color:var(--phalam)} .val[data-k="thoyam"]{color:var(--thoyam)}
+.val .vd,.val .vn{color:var(--ink)}
+.val[data-on="1"] .vn{color:currentColor}
+.val[data-on="1"]{background:color-mix(in srgb, currentColor 5%, var(--card))}
+
+.note{font-size:13.5px;color:var(--soft);font-style:italic;text-align:center;margin:20px 0 0;line-height:1.6}
+
+.gridhead{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:14px;flex-wrap:wrap;gap:10px}
+.gridhead h2{font-size:13px;letter-spacing:.16em;text-transform:uppercase;color:var(--faint);font-weight:500;margin:0}
+.count{font-size:13.5px;color:var(--soft)}
+.grid{display:grid;grid-template-rows:repeat(7,1fr);grid-auto-flow:column;grid-auto-columns:1fr;gap:6px}
+.dot{
+  position:relative;width:100%;aspect-ratio:1;border-radius:50%;cursor:pointer;
+  background:var(--rule);padding:0;border:0;
+}
+.dot i{position:absolute;inset:1px;border-radius:50%;background:var(--card);display:block}
+.dot.sel{outline:1.5px solid var(--ink);outline-offset:2px}
+.dot.today i{box-shadow:inset 0 0 0 1.5px var(--accent)}
+.legend{display:flex;gap:16px;flex-wrap:wrap;margin-top:16px;font-size:12.5px;color:var(--soft)}
+.legend span{display:flex;align-items:center;gap:6px}
+.legend b{width:9px;height:9px;border-radius:50%;display:inline-block}
+
+footer{margin-top:34px;padding-top:22px;border-top:1px solid var(--rule);font-size:13px;color:var(--soft)}
+.codeRow{display:flex;gap:8px;margin:10px 0 6px;flex-wrap:wrap}
+input#code{flex:1;min-width:220px;font-family:ui-monospace,Menlo,Consolas,monospace;font-size:12px;padding:7px 9px;border:1px solid var(--rule);border-radius:3px;background:var(--card);color:var(--ink)}
+footer button{font-family:inherit;font-size:13px;padding:7px 13px;border:1px solid var(--rule);background:var(--card);color:var(--ink);border-radius:3px;cursor:pointer}
+footer button:hover{border-color:var(--faint)}
+.fine{font-size:12.5px;color:var(--faint);line-height:1.6;margin-top:12px}
+
+@media (max-width:640px){
+  .wrap{padding:30px 16px 60px}
+  .grid{gap:4px}
+  .card{padding:20px 18px}
+  h1.sanskrit{font-size:26px}
+  .vdev{font-size:21px}
+  .viast{font-size:14.5px}
+  header{margin-bottom:24px}
+  .dedication{display:none}
+  .span{font-size:11.5px;margin-top:10px}
+}
+@media print{
+  body{background:#fff}
+  .nav,footer,.values,.note{display:none}
+  .card{border:1px solid #ccc;break-inside:avoid}
+  .grid{gap:8px}
+  .dot{background:#bbb}
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header>
+  <h1 class="sanskrit dev">पत्रं पुष्पं फलं तोयं</h1>
+  <p class="roman">Patram · Pushpam · Phalam · Thoyam</p>
+  <p class="dedication">One verse of the Lalita Sahasranama for each day of effort.</p>
+  <p class="span">182 SHLOKAS · 17 AUGUST 2026 &nbsp;—&nbsp; 14 FEBRUARY 2027</p>
+</header>
+
+<div class="card">
+  <div class="daybar">
+    <div>
+      <div class="dayno">Day <span id="dn">1</span> <small>of 182</small></div>
+      <div class="daydate" id="dd"></div>
+    </div>
+    <div class="nav">
+      <button id="prev" title="Previous day">&#8249;</button>
+      <button id="today" title="Go to today" style="width:auto;padding:0 10px;font-size:12.5px">today</button>
+      <button id="next" title="Next day">&#8250;</button>
+    </div>
+  </div>
+
+  <div class="verse">
+    <div class="vlabel">Shloka <span id="vn">1</span></div>
+    <div id="vbody"></div>
+  </div>
+
+  <div class="values" id="values"></div>
+
+  <p class="note">Three breaths before prayers.<br>On a rushed morning, three breaths still counts — fully, no asterisk.</p>
+</div>
+
+<div class="card">
+  <div class="gridhead">
+    <h2>The Pouring</h2>
+    <div class="count" id="count"></div>
+  </div>
+  <div class="grid" id="grid"></div>
+  <div class="legend">
+    <span><b style="background:var(--patram)"></b> Patram</span>
+    <span><b style="background:var(--pushpam)"></b> Pushpam</span>
+    <span><b style="background:var(--phalam)"></b> Phalam</span>
+    <span><b style="background:var(--thoyam)"></b> Thoyam</span>
+    <span style="color:var(--faint)">Each column is one week &mdash; 26 weeks exactly. Nothing is ever marked red.</span>
+  </div>
+</div>
+
+<footer>
+  <strong style="color:var(--ink);font-weight:600">Backup</strong>
+  <div>Your marks save automatically on this device. The code below is a spare key &mdash; copy it somewhere safe now and then, in case you change phones.</div>
+  <div class="codeRow">
+    <input id="code" readonly>
+    <button id="copy">Copy</button>
+    <button id="restore">Paste &amp; restore</button>
+  </div>
+  <p class="fine">
+    When the stream thins, no one stops and starts over. It thins, and it continues.<br>
+    Verse text for shlokas 1&ndash;30 from <a href="https://sanskritdocuments.org/doc_devii/lalitacomplete.itx" style="color:var(--soft)">sanskritdocuments.org</a>. English lines are paraphrase, not translation.
+  </p>
+</footer>
+
+</div>
+
+<script>
+const VERSES = [{"n":1,"dev":["श्रीमाता श्रीमहाराज्ञी श्रीमत्सिंहासनेश्वरी","चिदग्निकुण्डसम्भूता देवकार्यसमुद्यता"],"iast":["śrīmātā śrīmahārājñī śrīmatsiṃhāsaneśvarī","cidagnikuṇḍasambhūtā devakāryasamudyatā"],"gloss":"Mother, empress, enthroned. Born from the fire-pit of consciousness, and risen to do what needed doing."},{"n":2,"dev":["उद्यद्भानुसहस्राभा चतुर्बाहुसमन्विता","रागस्वरूपपाशाढ्या क्रोधाकाराङ्कुशोज्ज्वला"],"iast":["udyadbhānusahasrābhā caturbāhusamanvitā","rāgasvarūpapāśāḍhyā krodhākārāṅkuśojjvalā"],"gloss":"Bright as a thousand dawns, four-armed. She holds desire as a noose and anger as a goad — not destroying them, wielding them."},{"n":3,"dev":["मनोरूपेक्षुकोदण्डा पञ्चतन्मात्रसायका","निजारुणप्रभापूरमज्जद्ब्रह्माण्डमण्डला"],"iast":["manorūpekṣukodaṇḍā pañcatanmātrasāyakā","nijāruṇaprabhāpūramajjadbrahmāṇḍamaṇḍalā"],"gloss":"Her bow is the mind, her five arrows the senses. The whole round of worlds is drenched in her red light."},{"n":4,"dev":["चम्पकाशोकपुन्नागसौगन्धिकलसत्कचा","कुरुविन्दमणिश्रेणीकनत्कोटीरमण्डिता"],"iast":["campakāśokapunnāgasaugandhikalasatkacā","kuruvindamaṇiśreṇīkanatkoṭīramaṇḍitā"],"gloss":"Her hair bright with champaka and ashoka blossoms; her crown ringed with kuruvinda rubies."},{"n":5,"dev":["अष्टमीचन्द्रविभ्राजदलिकस्थलशोभिता","मुखचन्द्रकलङ्काभमृगनाभिविशेषका"],"iast":["aṣṭamīcandravibhrājadalikasthalaśobhitā","mukhacandrakalaṅkābhamṛganābhiviśeṣakā"],"gloss":"Her brow the moon of the eighth night; on it a mark of musk, like the moon's own shadow."},{"n":6,"dev":["वदनस्मरमाङ्गल्यगृहतोरणचिल्लिका","वक्त्रलक्ष्मीपरीवाहचलन्मीनाभलोचना"],"iast":["vadanasmaramāṅgalyagṛhatoraṇacillikā","vaktralakṣmīparīvāhacalanmīnābhalocanā"],"gloss":"Her brows the arched gateway to the house of love; her eyes move like fish in the current of her face."},{"n":7,"dev":["नवचम्पकपुष्पाभनासादण्डविराजिता","ताराकान्तितिरस्कारिनासाभरणभासुरा"],"iast":["navacampakapuṣpābhanāsādaṇḍavirājitā","tārākāntitiraskārināsābharaṇabhāsurā"],"gloss":"Her nose fair as a new champaka bud, and the jewel on it puts the stars to shame."},{"n":8,"dev":["कदम्बमञ्जरीकॢप्तकर्णपूरमनोहरा","ताटङ्कयुगलीभूततपनोडुपमण्डला"],"iast":["kadambamañjarīkḷptakarṇapūramanoharā","tāṭaṅkayugalībhūtatapanoḍupamaṇḍalā"],"gloss":"Kadamba blossoms at her ears — and for earrings, the sun and the moon themselves."},{"n":9,"dev":["पद्मरागशिलादर्शपरिभाविकपोलभूः","नवविद्रुमबिम्बश्रीन्यक्कारिरदनच्छदा"],"iast":["padmarāgaśilādarśaparibhāvikapolabhūḥ","navavidrumabimbaśrīnyakkāriradanacchadā"],"gloss":"Cheeks like mirrors cut from ruby; lips that shame fresh coral and the bimba fruit."},{"n":10,"dev":["शुद्धविद्याङ्कुराकारद्विजपङ्क्तिद्वयोज्ज्वला","कर्पूरवीटिकामोदसमाकर्षिदिगन्तरा"],"iast":["śuddhavidyāṅkurākāradvijapaṅktidvayojjvalā","karpūravīṭikāmodasamākarṣidigantarā"],"gloss":"Her teeth are the first shoots of pure knowing; the camphor scent of her mouth reaches every direction."},{"n":11,"dev":["निजसल्लापमाधुर्यविनिर्भर्त्सितकच्छपी","मन्दस्मितप्रभापूरमज्जत्कामेशमानसा"],"iast":["nijasallāpamādhuryavinirbhartsitakacchapī","mandasmitaprabhāpūramajjatkāmeśamānasā"],"gloss":"The sweetness of her speech outdoes Saraswati's lute; her faint smile drowns the mind of her beloved."},{"n":12,"dev":["अनाकलितसादृश्यचिबुकश्रीविराजिता","कामेशबद्धमाङ्गल्यसूत्रशोभितकन्धरा"],"iast":["anākalitasādṛśyacibukaśrīvirājitā","kāmeśabaddhamāṅgalyasūtraśobhitakandharā"],"gloss":"A chin beyond all comparison; at her throat the marriage thread Kameshwara tied."},{"n":13,"dev":["कनकाङ्गदकेयूरकमनीयभुजान्विता","रत्नग्रैवेयचिन्ताकलोलमुक्ताफलान्विता"],"iast":["kanakāṅgadakeyūrakamanīyabhujānvitā","ratnagraiveyacintākalolamuktāphalānvitā"],"gloss":"Gold armlets at her arms; gems, pearls and a pendant at her throat."},{"n":14,"dev":["कामेश्वरप्रेमरत्नमणिप्रतिपणस्तनी","नाभ्यालवालरोमालिलताफलकुचद्वयी"],"iast":["kāmeśvarapremaratnamaṇipratipaṇastanī","nābhyālavālaromālilatāphalakucadvayī"],"gloss":"Love itself is the price paid for her; from her navel a fine line of hair climbs like a vine."},{"n":15,"dev":["लक्ष्यरोमलताधारतासमुन्नेयमध्यमा","स्तनभारदलन्मध्यपट्टबन्धवलित्रया"],"iast":["lakṣyaromalatādhāratāsamunneyamadhyamā","stanabhāradalanmadhyapaṭṭabandhavalitrayā"],"gloss":"A waist so slender you know it only by the vine of hair above it; three folds where the weight bears down."},{"n":16,"dev":["अरुणारुणकौसुम्भवस्त्रभास्वत्कटीतटी","रत्नकिङ्किणिकारम्यरशनादामभूषिता"],"iast":["aruṇāruṇakausumbhavastrabhāsvatkaṭītaṭī","ratnakiṅkiṇikāramyaraśanādāmabhūṣitā"],"gloss":"Saffron-red cloth wrapping her hips, a girdle of small jeweled bells."},{"n":17,"dev":["कामेशज्ञातसौभाग्यमार्दवोरुद्वयान्विता","माणिक्यमुकुटाकारजानुद्वयविराजिता"],"iast":["kāmeśajñātasaubhāgyamārdavorudvayānvitā","māṇikyamukuṭākārajānudvayavirājitā"],"gloss":"A softness known only to the one who loves her; knees like crowns of manikya gems."},{"n":18,"dev":["इन्द्रगोपपरिक्षिप्तस्मरतूणाभजङ्घिका","गूढगुल्फा कूर्मपृष्ठजयिष्णुप्रपदान्विता"],"iast":["indragopaparikṣiptasmaratūṇābhajaṅghikā","gūḍhagulphā kūrmapṛṣṭhajayiṣṇuprapadānvitā"],"gloss":"Calves like the love-god's quiver; ankles hidden, the arch of her feet curved like a tortoise shell."},{"n":19,"dev":["नखदीधितिसञ्छन्ननमज्जनतमोगुणा","पदद्वयप्रभाजालपराकृतसरोरुहा"],"iast":["nakhadīdhitisañchannanamajjanatamoguṇā","padadvayaprabhājālaparākṛtasaroruhā"],"gloss":"The light off her toenails scatters the darkness of whoever bows; her feet outdo the lotus."},{"n":20,"dev":["सिञ्जानमणिमञ्जीरमण्डितश्रीपदाम्बुजा","मरालीमन्दगमना महालावण्यशेवधिः"],"iast":["siñjānamaṇimañjīramaṇḍitaśrīpadāmbujā","marālīmandagamanā mahālāvaṇyaśevadhiḥ"],"gloss":"Anklets sounding softly as she moves; she walks like a swan. She is the treasury of all loveliness."},{"n":21,"dev":["सर्वारुणाऽनवद्याङ्गी सर्वाभरणभूषिता","शिवकामेश्वराङ्कस्था शिवा स्वाधीनवल्लभा"],"iast":["sarvāruṇā'navadyāṅgī sarvābharaṇabhūṣitā","śivakāmeśvarāṅkasthā śivā svādhīnavallabhā"],"gloss":"All red, faultless, fully adorned — seated on Shiva's lap, herself Shiva, her beloved wholly hers."},{"n":22,"dev":["सुमेरुमध्यशृङ्गस्था श्रीमन्नगरनायिका","चिन्तामणिगृहान्तस्था पञ्चब्रह्मासनस्थिता"],"iast":["sumerumadhyaśṛṅgasthā śrīmannagaranāyikā","cintāmaṇigṛhāntasthā pañcabrahmāsanasthitā"],"gloss":"She lives on the central peak of Meru, mistress of the shining city, in the house of the wish-granting gem."},{"n":23,"dev":["महापद्मातवीसंस्था कदम्बवनवासिनी","सुधासागरमध्यस्था कामाक्षी कामदायिनी"],"iast":["mahāpadmātavīsaṃsthā kadambavanavāsinī","sudhāsāgaramadhyasthā kāmākṣī kāmadāyinī"],"gloss":"In the lotus forest, the kadamba grove, the middle of the ocean of nectar. She looks with love, and gives what is asked."},{"n":24,"dev":["देवर्षिगणसङ्घातस्तूयमानात्मवैभवा","भण्डासुरवधोद्युक्तशक्तिसेनासमन्विता"],"iast":["devarṣigaṇasaṅghātastūyamānātmavaibhavā","bhaṇḍāsuravadhodyuktaśaktisenāsamanvitā"],"gloss":"Gods and sages sing her greatness. Her army of powers assembles for the war."},{"n":25,"dev":["सम्पत्करीसमारूढसिन्धुरव्रजसेविता","अश्वारूढाधिष्ठिताश्वकोटिकोटिभिरावृता"],"iast":["sampatkarīsamārūḍhasindhuravrajasevitā","aśvārūḍhādhiṣṭhitāśvakoṭikoṭibhirāvṛtā"],"gloss":"Mounted and attended — by elephant troops, and by cavalry past counting."},{"n":26,"dev":["चक्रराजरथारूढसर्वायुधपरिष्कृता","गेयचक्ररथारूढमन्त्रिणीपरिसेविता"],"iast":["cakrarājarathārūḍhasarvāyudhapariṣkṛtā","geyacakrarathārūḍhamantriṇīparisevitā"],"gloss":"She rides the chariot Chakraraja, armed at every point, her ministers riding their own chariots beside her."},{"n":27,"dev":["किरिचक्ररथारूढदण्डनाथापुरस्कृता","ज्वालामालिनिकाक्षिप्तवह्निप्राकारमध्यगा"],"iast":["kiricakrarathārūḍhadaṇḍanāthāpuraskṛtā","jvālāmālinikākṣiptavahniprākāramadhyagā"],"gloss":"Her commander goes before her; she passes through the rampart of fire her own power raised."},{"n":28,"dev":["भण्डसैन्यवधोद्युक्तशक्तिविक्रमहर्षिता","नित्यापराक्रमाटोपनिरीक्षणसमुत्सुका"],"iast":["bhaṇḍasainyavadhodyuktaśaktivikramaharṣitā","nityāparākramāṭopanirīkṣaṇasamutsukā"],"gloss":"She takes delight in the courage of her forces, and waits eagerly to watch them fight."},{"n":29,"dev":["भण्डपुत्रवधोद्युक्तबालाविक्रमनन्दिता","मन्त्रिण्यम्बाविरचितविषङ्गवधतोषिता"],"iast":["bhaṇḍaputravadhodyuktabālāvikramananditā","mantriṇyambāviracitaviṣaṅgavadhatoṣitā"],"gloss":"Gladdened by the young one's valor, gladdened by her minister's victory."},{"n":30,"dev":["विशुक्रप्राणहरणवाराहीवीर्यनन्दिता","कामेश्वरमुखालोककल्पितश्रीगणेश्वरा"],"iast":["viśukraprāṇaharaṇavārāhīvīryananditā","kāmeśvaramukhālokakalpitaśrīgaṇeśvarā"],"gloss":"Delighted by Varahi's strength. And from a single glance between her and Shiva, Ganesha is born."}];
+const VMAP = {}; VERSES.forEach(v => VMAP[v.n] = v);
+
+const VALUES = [
+  {k:'patram',  dev:'पत्रं',  name:'Patram',  en:'leaf',   desc:'Body and mind. Move, and give the mind something real.'},
+  {k:'pushpam', dev:'पुष्पं', name:'Pushpam', en:'flower', desc:'Family, treated with kindness and respect.'},
+  {k:'phalam',  dev:'फलं',   name:'Phalam',  en:'fruit',  desc:'My best work — including becoming a practitioner.'},
+  {k:'thoyam',  dev:'तोयं',  name:'Thoyam',  en:'water',  desc:'Stillness. Three breaths, seated, before prayers.'}
+];
+const COLORS = {patram:'#6E8B5E', pushpam:'#A85A72', phalam:'#C08A3E', thoyam:'#1F5FA8'};
+const TOTAL = 182;
+const START = new Date(2026, 7, 17); // 17 Aug 2026, local
+
+const KEY = 'pppt-v1';
+const state = Array.from({length: TOTAL}, () => [false,false,false,false]);
+let sel = 1;
+
+function dateFor(day){ const d = new Date(START); d.setDate(d.getDate() + day - 1); return d; }
+function todayIndex(){
+  const now = new Date(); now.setHours(0,0,0,0);
+  const diff = Math.round((now - START) / 86400000) + 1;
+  return Math.min(TOTAL, Math.max(1, diff));
+}
+function started(){ const now = new Date(); now.setHours(0,0,0,0); return now >= START; }
+const FMT = {weekday:'long', day:'numeric', month:'long', year:'numeric'};
+
+function renderVerse(){
+  document.getElementById('dn').textContent = sel;
+  document.getElementById('vn').textContent = sel;
+  const d = dateFor(sel);
+  let label = d.toLocaleDateString(undefined, FMT);
+  if (!started() && sel === 1) label += ' — begins in ' + Math.round((START - new Date().setHours(0,0,0,0))/86400000) + ' days';
+  document.getElementById('dd').textContent = label;
+
+  const v = VMAP[sel], box = document.getElementById('vbody');
+  if (v){
+    box.innerHTML =
+      '<div class="vdev dev">' + v.dev[0] + ' &#2404;<br>' + v.dev[1] + ' &#2405;</div>' +
+      '<div class="viast">' + v.iast[0] + '<br>' + v.iast[1] + '</div>' +
+      '<div class="vgloss">' + v.gloss + '</div>';
+  } else {
+    box.innerHTML = '<p class="vmissing">Read shloka ' + sel + ' from your own text today.<br>' +
+      'The full stotra is at <a href="https://sanskritdocuments.org/doc_devii/lalitacomplete.itx">sanskritdocuments.org</a>.</p>';
+  }
+}
+
+function renderValues(){
+  const wrap = document.getElementById('values');
+  wrap.innerHTML = '';
+  VALUES.forEach((V, i) => {
+    const b = document.createElement('button');
+    b.className = 'val'; b.dataset.k = V.k; b.dataset.on = state[sel-1][i] ? '1' : '0';
+    b.innerHTML = '<div class="vn"><span class="mark"></span>' + V.name +
+      ' <span class="vs dev">' + V.dev + '</span></div><div class="vd">' + V.desc + '</div>';
+    b.onclick = () => { state[sel-1][i] = !state[sel-1][i]; renderValues(); renderGrid(); renderCode(); };
+    wrap.appendChild(b);
+  });
+}
+
+function dotStyle(day){
+  const s = state[day-1], segs = [];
+  for (let i = 0; i < 4; i++){
+    const c = s[i] ? COLORS[VALUES[i].k] : 'transparent';
+    segs.push(c + ' ' + (i*25) + '% ' + ((i+1)*25) + '%');
+  }
+  return 'conic-gradient(' + segs.join(',') + ')';
+}
+
+function renderGrid(){
+  const g = document.getElementById('grid');
+  if (!g.childElementCount){
+    for (let d = 1; d <= TOTAL; d++){
+      const b = document.createElement('button');
+      b.className = 'dot'; b.dataset.d = d;
+      b.innerHTML = '<i></i>';
+      b.onclick = () => { sel = d; render(); };
+      g.appendChild(b);
+    }
+  }
+  const ti = todayIndex();
+  [...g.children].forEach((b, idx) => {
+    const d = idx + 1, s = state[d-1], any = s.some(Boolean);
+    b.style.background = any ? dotStyle(d) : 'var(--rule)';
+    b.querySelector('i').style.background = any ? 'transparent' : 'var(--card)';
+    b.classList.toggle('sel', d === sel);
+    b.classList.toggle('today', started() && d === ti);
+    b.title = 'Day ' + d + ' · ' + dateFor(d).toLocaleDateString(undefined, {day:'numeric', month:'short'}) +
+              (any ? ' · ' + s.filter(Boolean).length + ' of 4' : '');
+  });
+  const poured = state.filter(s => s.some(Boolean)).length;
+  const full = state.filter(s => s.every(Boolean)).length;
+  document.getElementById('count').textContent = poured + (poured === 1 ? ' day poured' : ' days poured') +
+    (full ? ' · ' + full + ' complete' : '');
+}
+
+function renderCode(){
+  const bits = state.flat().map(b => b ? '1' : '0').join('');
+  let bytes = '';
+  for (let i = 0; i < bits.length; i += 8) bytes += String.fromCharCode(parseInt(bits.slice(i, i+8).padEnd(8,'0'), 2));
+  bytes = bytes.replace(/\x00+$/, '');
+  const val = 'PPPT1-' + btoa(bytes).replace(/=+$/,'');
+  document.getElementById('code').value = val;
+  try { localStorage.setItem(KEY, val); } catch(e) {}
+}
+
+function loadCode(str){
+  try{
+    const raw = atob(str.trim().replace(/^PPPT1-/, ''));
+    let bits = '';
+    for (const ch of raw) bits += ch.charCodeAt(0).toString(2).padStart(8,'0');
+    bits = bits.padEnd(TOTAL*4, '0');
+    for (let d = 0; d < TOTAL; d++) for (let i = 0; i < 4; i++) state[d][i] = bits[d*4+i] === '1';
+    return true;
+  } catch(e){ return false; }
+}
+
+function render(){ renderVerse(); renderValues(); renderGrid(); renderCode(); }
+
+document.getElementById('prev').onclick = () => { if (sel > 1){ sel--; render(); } };
+document.getElementById('next').onclick = () => { if (sel < TOTAL){ sel++; render(); } };
+document.getElementById('today').onclick = () => { sel = todayIndex(); render(); };
+document.getElementById('copy').onclick = () => {
+  const el = document.getElementById('code'); el.select();
+  navigator.clipboard.writeText(el.value).catch(() => document.execCommand('copy'));
+  const b = document.getElementById('copy'); b.textContent = 'Copied'; setTimeout(() => b.textContent = 'Copy', 1400);
+};
+document.getElementById('restore').onclick = () => {
+  const el = document.getElementById('code');
+  el.readOnly = false; el.value = ''; el.placeholder = 'paste your code, then press Enter'; el.focus();
+  el.onkeydown = e => {
+    if (e.key !== 'Enter') return;
+    const ok = loadCode(el.value);
+    el.readOnly = true; el.placeholder = ''; el.onkeydown = null;
+    render();
+    if (!ok) alert('That code could not be read. Your marks are unchanged.');
+  };
+};
+document.addEventListener('keydown', e => {
+  if (e.target.tagName === 'INPUT') return;
+  if (e.key === 'ArrowLeft' && sel > 1){ sel--; render(); }
+  if (e.key === 'ArrowRight' && sel < TOTAL){ sel++; render(); }
+});
+
+try { const saved = localStorage.getItem(KEY); if (saved) loadCode(saved); } catch(e) {}
+sel = started() ? todayIndex() : 1;
+render();
+if ('serviceWorker' in navigator) navigator.serviceWorker.register('sw.js').catch(() => {});
+</script>
+</body>
+</html>
