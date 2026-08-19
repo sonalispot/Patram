@@ -80,7 +80,11 @@ h1.sanskrit{font-size:31px;letter-spacing:.02em;margin:0 0 8px;font-weight:500;c
 .bigcap{font-size:13.5px;color:var(--soft);text-align:center;line-height:1.45}
 .bigcap b{color:var(--ink);font-weight:600}
 
-.note{font-size:13.5px;color:var(--soft);font-style:italic;text-align:center;margin:20px 0 0;line-height:1.6}
+.note{font-size:13.5px;color:var(--soft);font-style:italic;text-align:center;margin:22px 0 0;line-height:1.6}
+.ksana{display:block;font-style:normal;font-size:17px;line-height:1.75;color:var(--ink);margin-bottom:7px}
+.ksanaen{display:block;margin-bottom:16px;padding-bottom:16px;border-bottom:1px solid var(--rule)}
+.ksanaen em{font-style:normal;font-size:12px;letter-spacing:.05em;color:var(--faint)}
+@media (max-width:640px){ .ksana{font-size:15px} }
 
 .gridhead{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:14px;flex-wrap:wrap;gap:10px}
 .gridhead h2{font-size:13px;letter-spacing:.16em;text-transform:uppercase;color:var(--faint);font-weight:500;margin:0}
@@ -162,7 +166,7 @@ footer button:hover{border-color:var(--faint)}
 
   <div class="values" id="values"></div>
 
-  <p class="note">Three breaths before prayers.<br>On a rushed morning, three breaths still counts — fully, no asterisk.</p>
+  <p class="note"><span class="dev ksana">क्षणे क्षणे यन्नवतामुपैति तदेव रूपं रमणीयतायाः</span><span class="ksanaen">That which goes on arriving new, moment by moment &mdash; that alone is delight.<br><em>&mdash; M&#257;gha, &#346;i&#347;up&#257;lavadha</em></span>Three breaths before prayers.<br>On a rushed morning, three breaths still counts — fully, no asterisk.</p>
 </div>
 
 <div class="card">
@@ -204,7 +208,7 @@ const VALUES = [
   {k:'patram',  dev:'पत्रं',  name:'Patram',  en:'leaf',   desc:'Body and mind. Move, and give the mind something real.'},
   {k:'pushpam', dev:'पुष्पं', name:'Pushpam', en:'flower', desc:'Family, treated with kindness and respect.'},
   {k:'phalam',  dev:'फलं',   name:'Phalam',  en:'fruit',  desc:'My best work — including becoming a practitioner.'},
-  {k:'thoyam',  dev:'तोयं',  name:'Thoyam',  en:'water',  desc:'Stillness. Three breaths, seated, before prayers.'}
+  {k:'thoyam',  dev:'तोयं',  name:'Thoyam',  en:'water',  desc:'Kṣaṇa &mdash; this once. Three breaths, seated, before prayers. This morning will not come again.'}
 ];
 const COLORS = {patram:'#6E8B5E', pushpam:'#A85A72', phalam:'#C08A3E', thoyam:'#1F5FA8'};
 const TOTAL = 182;

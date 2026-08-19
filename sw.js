@@ -1,4 +1,4 @@
-const CACHE = 'pppt-v4';
+const CACHE = 'pppt-v5';
 const ASSETS = ['./', './index.html', './manifest.webmanifest',
                 './icon-192.png', './icon-512.png', './icon-180.png'];
 
